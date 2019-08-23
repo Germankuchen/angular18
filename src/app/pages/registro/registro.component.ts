@@ -31,7 +31,7 @@ export class RegistroComponent implements OnInit {
       this.authService.crearUsuario(this.usuario).subscribe(info => {
         console.log(info);
         this.authService.guardarToken(info['idToken']);
-        Swal.close():
+        Swal.close();
       }, (error) => console.log(error) );
      }
    }
