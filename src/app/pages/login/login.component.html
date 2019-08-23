@@ -1,31 +1,25 @@
 <div class="limiter">
     <div class="container-login100">
         <div class="wrap-login100 p-t-50 p-b-90">
-            <form class="login100-form validate-form flex-sb flex-w">
+            <form class="login100-form validate-form flex-sb flex-w" #formulario="ngForm" (ngSubmit)=enviar(formulario)>
 
                 <span class="login100-form-title p-b-51">
                     Login
                 </span>
 
-                <!-- <span class="text-danger">El correo es obligatorio</span> -->
+                <span class="text-danger" *ngIf="formulario.submitted && formulario.controls['email'].errors">El correo es obligatorio</span>
                 <div class="wrap-input100 m-b-16">
-                    <input class="input100" 
-                           type="text" 
-                           name="username" 
-                           placeholder="Username">
+                    <input class="input100" type="email" name="email" placeholder="Username" [(ngModel)]="usuario.email" required email>
 
                     <span class="focus-input100"></span>
                 </div>
-                
-                <!-- <span class="text-danger">La contraseña debe de ser más de 6 letras</span> -->
-                <div class="wrap-input100 m-b-16" data-validate = "Password is required">
-                    <input class="input100"
-                           type="password" 
-                           name="pass" 
-                           placeholder="Password">
+
+                <span class="text-danger" *ngIf="formulario.submitted && formulario.controls['password'].errors">La contraseña debe tener al menos 6 caracteres</span>
+                <div class="wrap-input100 m-b-16" data-validate="Password is required">
+                    <input class="input100" type="password" name="password" placeholder="Password" [(ngModel)]="usuario.password" required minlength="6">
                     <span class="focus-input100"></span>
                 </div>
-                
+
                 <div class="flex-sb-m w-full p-t-3 p-b-24">
                     <div class="contact100-form-checkbox">
                         <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
@@ -51,4 +45,3 @@
         </div>
     </div>
 </div>
-
