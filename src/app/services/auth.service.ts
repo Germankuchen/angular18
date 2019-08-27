@@ -15,7 +15,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   logOut() {
-
+    localStorage.removeItem('token');
   }
 
   logIn(usuario: UsuarioModel) {
@@ -40,6 +40,9 @@ export class AuthService {
     this.userToken = token;
     console.log('Se va a guardar el token' + token);
     localStorage.setItem('token', this.userToken);
+    const hoy = new Date();
+    hoy.setSeconds(3600);
+    localStorage.setItem('fechaExpiraToken', hoy.getTime().toString());
   }
 
   private obtenerToken() {
@@ -49,6 +52,23 @@ export class AuthService {
       this.userToken = '';
     }
     return this.userToken;
+  }
+
+  estaLogueado(): boolean {
+    if (this.userToken === undefined) {
+      return false;
+    }
+    if (localStorage.getItem('fechaExpiraToken') === undefined) {
+      return false;
+    }
+    const fechaActual = new Date().getTime();
+    const fechaExpiraToken = Number(localStorage.getItem('fechaExpiraToken'));
+    console.log('La fecha en tiempo de hoy es ' + fechaActual);
+    console.log('La fecha en tiempo del token es ' + fechaExpiraToken);
+    if (fechaActual > fechaExpiraToken) {
+      return false;
+    }
+    return this.userToken.length > 0;
   }
 
 }
